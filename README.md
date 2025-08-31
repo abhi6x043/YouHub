@@ -33,7 +33,7 @@ sudo apt-get install ffmpeg
 
 1. **Install dependencies:**
    ```sh
-   cd /home/abhi/webapp-abhi
+   cd /path/to/youhub
    npm install
    ```
 2. **Run the frontend dev server:**
@@ -54,7 +54,7 @@ sudo apt-get install ffmpeg
 
 1. **Create a Python virtual environment (recommended):**
    ```sh
-   cd /home/abhi/webapp-abhi/server
+   cd /path/to/youhub/server
    python3 -m venv venv
    source venv/bin/activate
    ```
