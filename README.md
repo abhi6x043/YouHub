@@ -33,7 +33,7 @@ sudo apt-get install ffmpeg
 
 1. **Install dependencies:**
    ```sh
-   cd /home/abhi/webapp-abhi
+   cd /path/to/youhub
    npm install
    ```
 2. **Run the frontend dev server:**
@@ -54,7 +54,7 @@ sudo apt-get install ffmpeg
 
 1. **Create a Python virtual environment (recommended):**
    ```sh
-   cd /home/abhi/webapp-abhi/server
+   cd /path/to/youhub/server
    python3 -m venv venv
    source venv/bin/activate
    ```
@@ -85,9 +85,9 @@ docker build -t youhub .
 
 ### 2. Run the container
 ```sh
-docker run -p 8080:5174 youhub
+docker run -p 5174:5174 youhub
 ```
-- The app will be available at [http://localhost:8080](http://localhost:8080)
+- The app will be available at [http://localhost:5174](http://localhost:5174)
 - Flask serves both the API and the built frontend from the same container.
 
 ### 3. Development tips
