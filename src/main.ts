@@ -1,5 +1,11 @@
 import './style.css'
 
+// default to current origin
+const backendBase = `${window.location.protocol}//${window.location.host}`;
+
+// for local development with separate backend port
+// const backendBase = `${window.location.protocol}//${window.location.hostname}:5174`;
+
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div id="header-container">
     <div id="hello-world">YouHub</div>
@@ -97,7 +103,7 @@ function renderVideoInfo(data: any) {
           const hq = (item as HTMLElement).getAttribute('data-quality');
           qualityMenu.style.display = 'none';
           if (window.lastUrl) {
-            window.open(`http://localhost:5174/api/download?url=${encodeURIComponent(window.lastUrl)}&mode=video&hq=${hq}`, '_blank');
+            window.open(`${backendBase}/api/download?url=${encodeURIComponent(window.lastUrl)}&mode=video&hq=${hq}`, '_blank');
           }
         });
       });
@@ -105,7 +111,7 @@ function renderVideoInfo(data: any) {
     if (audioBtn) {
       audioBtn.addEventListener('click', () => {
         if (window.lastUrl) {
-          window.open(`http://localhost:5174/api/download?url=${encodeURIComponent(window.lastUrl)}&mode=audio`, '_blank');
+          window.open(`${backendBase}/api/download?url=${encodeURIComponent(window.lastUrl)}&mode=audio`, '_blank');
         }
       });
     }
@@ -121,7 +127,7 @@ if (input && displayArea && inputContainer && headerContainer) {
       displayArea.innerHTML = '<div class="loading">Loading...</div>';
       headerContainer.classList.add('move-up');
       try {
-        const resp = await fetch('http://localhost:5174/api/youtube-title', {
+        const resp = await fetch(`${backendBase}/api/youtube-title`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url })
