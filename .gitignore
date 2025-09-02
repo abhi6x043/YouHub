@@ -31,3 +31,5 @@ __pycache__/
 # Flask build/static
 server/static/
 server/entries.txt
+upcoming-features.txt
+.github/*
