@@ -1,4 +1,5 @@
 import re
+import json
 import requests
 import os
 from bs4 import BeautifulSoup
@@ -36,8 +37,6 @@ def get_youtube_title(data, SAVE_FILE):
         thumbnail = f'https://img.youtube.com/vi/{video_id}/hqdefault.jpg'
         desc_tag = soup.find('meta', {'name': 'description'})
         description = desc_tag['content'] if desc_tag else ''
-        import json
-        import re
         initial_data = None
         for script in soup.find_all('script'):
             if script.string and 'var ytInitialPlayerResponse' in script.string:
@@ -48,13 +47,16 @@ def get_youtube_title(data, SAVE_FILE):
                     except Exception:
                         pass
                 break
-        length = uploaded = views = likes = 'N/A'
+        length = uploaded = views = 'N/A'
         if initial_data:
             try:
                 length = initial_data['videoDetails']['lengthSeconds']
                 length = f"{int(length)//60}:{int(length)%60:02d}"
                 views = initial_data['videoDetails']['viewCount']
                 uploaded = initial_data['microformat']['playerMicroformatRenderer']['publishDate']
+                category = initial_data['microformat']['playerMicroformatRenderer']['category']
+                likecount = initial_data['microformat']['playerMicroformatRenderer']['likeCount']
+                print(f"Video Category: {category}, Likes: {likecount}")
             except Exception:
                 pass
         with open(SAVE_FILE, 'a', encoding='utf-8') as f:
@@ -71,7 +73,7 @@ def get_youtube_title(data, SAVE_FILE):
         return jsonify({'error': 'Failed to fetch title'}), 500
 
 # Handle video/audio download
-def handle_download(request, SAVE_FILE):
+def handle_download(request):
     url = request.args.get('url')
     mode = request.args.get('mode', 'video')
     hq = request.args.get('hq', '1')
@@ -107,7 +109,6 @@ def handle_download(request, SAVE_FILE):
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(url, download=True)
-                print(info)
                 print(f"Video Category: {get_video_category(info)}")
                 title = info.get('title', 'video')
                 ext = 'mp3' if mode == 'audio' else 'mp4'

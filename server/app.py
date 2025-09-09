@@ -14,7 +14,7 @@ def youtube_title():
 
 @app.route('/api/download', methods=['GET'])
 def download():
-    return handle_download(request, SAVE_FILE)
+    return handle_download(request)
 
 @app.route('/')
 def serve_index():
